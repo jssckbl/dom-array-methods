@@ -16,12 +16,31 @@ getRandomUser();
 async function getRandomUser() {
   const res = await fetch("https://randomuser.me/api");
   const data = await res.json();
-  console.log(data);
+  // console.log(data);
   const user = data.results[0];
 
   const newUser = {
     name: `${user.name.first} ${user.name.last}`,
     money: Math.floor(Math.random() * 1000000)
   };
-  console.log(newUser);
+  addData(newUser);
+}
+
+// Add new object to data array
+function addData(object) {
+  data.push(object);
+  updateDOM();
+}
+
+// Update DOM
+
+function updateDOM(providedData = data) {
+  // Clear main div
+  main.innerHTML = "<h2><strong>Person</strong> Wealth</h2>";
+  providedData.forEach(item => {
+    const element = document.createElement("div");
+    element.classList.add("person");
+    element.innerHTML = `<strong> ${item.name}</strong> ${item.money}`;
+    main.appendChild(element);
+  });
 }
